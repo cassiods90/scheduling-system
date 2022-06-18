@@ -1,0 +1,188 @@
+.professional-page {
+    .professional-card {
+        width: 410px;
+        max-width: 30%;
+        border-right: 2px solid $sec-color;
+        min-height: calc(100vh - 315px);
+        > div {
+            height: 100%;
+        }
+    }
+    .professional-schedule {
+        width: 100%;
+        max-width: 70%;
+        .professional-schedule-inner {
+            padding: 40px 0;
+            // height: 100vh;
+            .subtitle {
+                padding: 20px 0 40px;
+            }
+        }
+    }
+}
+
+.custom-calendar {
+    padding: 15px;
+    background: $white;
+    border: 0 !important;
+    border-radius: 10px !important;
+    box-shadow: $black10 0px 10px 15px -3px, $black05 0px 4px 6px -2px;
+    @include transition();
+    &:hover {
+        box-shadow: $base50 0px 10px 15px -3px, $base15 0px 4px 6px -2px;
+    }  
+    .vc-header{
+        // background-color: $base-color;
+    }     
+    .vc-day {
+        width: 75px;
+        height: 75px;
+        border: 1px solid $third-color;
+        @include transition();
+        &:hover {
+            background: $sec-color;
+            .vc-day-content {
+                color: $white;
+                background: transparent;
+            }
+        }
+        &.active {
+            background: $sec-color;
+            .vc-day-content {
+                color: $white;
+                background: $sec-color;
+            }
+        }
+        
+        .vc-day-content {
+            color: $black;    
+            width: 100%;
+            height: 100%;
+            border-radius: 0;   
+            &.is-disabled {
+                background: transparent;
+                color: $dark-grey;
+                &:after {
+                    content: "";
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    background: $background-light-gray;
+                    top: 0;
+                    position: absolute;
+                    left: 0;
+                    z-index: -1;
+                }
+            }
+        }
+    }
+    .on-top {
+        border-top: 2px solid $base-color;
+    }
+    .on-right {
+        border-right: 2px solid $base-color;
+    }
+    .on-bottom {
+        border-bottom: 2px solid $base-color;
+    }
+    .on-left {
+        border-left: 2px solid $base-color;
+    }
+}
+
+.vc-date-time {
+    .vc-date {
+        span {
+            color: $black !important;
+            @include poppins-regular();
+        }
+        .vc-month,
+        .vc-day {
+            color: $base-color !important;
+            @include poppins-bold();
+        }
+    }
+    .vc-day {
+        width: auto !important;
+        height: auto !important;
+        border: none;
+        @include transition();
+    }
+    .vc-select {
+        background: $sec05 !important;
+        border: 1px solid $base-color;
+        border-radius: 5px;
+        padding: 5px 15px;
+        @include transition();
+        select {
+            background-color: transparent !important;
+            border: none !important;
+            color: $base-color !important;
+        }
+        .vc-select-arrow {
+            color: $base-color !important;
+        }
+    }
+}
+
+.vc-day-content  .is-disabled {
+    position: absolute;
+}
+
+
+@media (max-width: 992px) {
+    .custom-calendar {         
+        .vc-day {
+            width: 60px;
+            height: 60px;
+        }
+    }
+}
+
+
+@media (max-width: 767px) {
+    .professional-page {
+        .professional-card {
+            width: 100%;
+            max-width: 100%;
+            border-right: none;
+        }
+        .professional-schedule {
+            max-width: 100%;
+        }
+    }
+
+    .custom-calendar {
+        .vc-day {
+            width: 50px;
+            height: 50px;
+        }
+    } 
+}
+
+@media (max-width: 400px) {
+    .custom-calendar {
+        .vc-day {
+            width: 45px;
+            height: 45px;
+        }
+    } 
+}
+
+@media (max-width: 375px) {
+    .custom-calendar {
+        .vc-day {
+            width: 40px;
+            height: 40px;
+        }
+    } 
+}
+
+@media (max-width: 335px) {
+    .custom-calendar {
+        .vc-day {
+            width: 35px;
+            height: 35px;
+        }
+    } 
+}

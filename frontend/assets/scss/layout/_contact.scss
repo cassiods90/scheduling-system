@@ -1,0 +1,54 @@
+.contact {
+    padding: 60px 0 30px 0;
+    .contact-content {
+        h1 {
+            text-align: center;
+        }
+        .main-content {
+            padding: 30px 0;
+            .main-content-column {
+                margin: 0 -30px;
+                a {
+                    padding: 25px 30px;
+                }
+            }
+            .main-content-item {
+                width: 100%;
+                padding: 25px 0; 
+                img {
+                    max-width: 35px;
+                    max-height: 30px;
+                    object-fit: contain;
+                }
+                .item-text {
+                    margin-left: 15px;
+                    .subtitle {
+                        @include poppins-bold();
+                    }
+                    span {
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .contact {
+        .contact-content {
+            .main-content {
+                padding: 0;
+                .main-content-column {
+                    margin: 0 -30px;
+                    a {
+                        padding: 25px 30px;
+                    }
+                }
+                .main-content-item {
+                    padding: 25px 0; 
+                }
+            }
+        }
+    }
+}

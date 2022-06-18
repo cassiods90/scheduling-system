@@ -1,0 +1,27 @@
+@import "./node_modules/bootstrap/scss/functions";
+@import "./node_modules/bootstrap/scss/variables";
+@import "./node_modules/bootstrap/scss/bootstrap";
+@import "./node_modules/bootstrap/scss/bootstrap-grid";
+@import "helpers/mixins";
+
+//fix slick assets paths because slick is a pain in the ***
+@import "layout/fix-slick";
+@import "./node_modules/slick-carousel/slick/slick.scss";
+@import "./node_modules/slick-carousel/slick/slick-theme.scss";
+
+//base
+@import "base/variables";
+@import "base/global";
+@import "base/buttons";
+
+//layout
+@import "layout/home";
+@import "layout/header";
+@import "layout/footer";
+@import "layout/about";
+@import "layout/contact";
+@import "layout/filter";
+@import "layout/cards-items";
+@import "layout/login-register";
+@import "layout/panel";
+@import "layout/professional";

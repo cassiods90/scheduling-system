@@ -1,0 +1,134 @@
+.panel {
+    
+    
+}
+
+.panel-content {
+    .panel-item {
+        &.visible {
+            .panel-content-item {
+                display: block;
+            }
+            .open-icons {
+                .less {
+                    opacity: 1;
+                    visibility: visible;
+                }
+                .more {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
+        }
+        margin: 20px 0;
+        background: $white;
+        border-radius: 10px;
+        box-shadow: $black10 0px 10px 15px -3px, $black05 0px 4px 6px -2px;
+        @include transition();
+        &:hover {
+            box-shadow: $base50 0px 10px 15px -3px, $base15 0px 4px 6px -2px;
+        }       
+        .panel-item-menu {
+            cursor: pointer;
+            padding: 10px 20px;
+            width: 100%;
+            img {
+                max-width: 20px;
+                max-height: 20px;
+            }
+        }
+        .panel-content-item {
+            display: none;
+            padding: 20px;
+        }
+        .open-icons {
+            display: block;
+            position: relative;
+            width: 20px;
+            height: 20px;
+            .more,
+            .less {
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+            .more {
+                opacity: 1;
+                visibility: visible;
+            }
+            .less {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    }
+}
+
+.scheduls-items {
+    .scheduls-item {
+        &.oldDate {
+            span {
+                color: $grey;
+            }
+            svg {
+                path {
+                    color: $grey !important;
+                    fill: $grey !important;
+                }
+            }
+            &:hover {
+                .schedul-item-icon {
+                    svg {
+                        path {
+                            color: #ccc !important;
+                            fill: #ccc !important;
+                        }
+                    }
+                }
+            }           
+        }
+        .scheduls-item-content {
+            border-bottom: 2px solid $base-color;
+            padding: 5px 0;
+            .schedul-item {
+                .item-title {
+                    @include poppins-bold();
+                }
+                span {
+                    @include line-clamp(1);
+                }
+                .schedul-item-icon {
+                    svg {
+                        max-width: 20px;
+                        max-height: 20px;
+                    }
+                }
+                &.item-icon {
+                    cursor: pointer;
+                    span {
+                        text-align: center;
+                    }
+                    &:hover {
+                        .schedul-item-icon {
+                            svg {
+                                path {
+                                    color: red !important;
+                                    fill: red !important;
+                                }
+                            }
+                        }
+                        span {
+                            color: red;
+                        }    
+                    }
+                }
+            }
+        }
+    }
+}    
+
+@media (max-width: 767px) {
+    
+}

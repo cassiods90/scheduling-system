@@ -1,0 +1,117 @@
+.header {
+    background: $base-color;
+    padding: 10px 0;
+    &.mobile {
+        .navbar-toggler {
+            background: $white;
+            .navbar-toggler-icon {
+                background-image: url('@/assets/images/header/menu2.png');
+            }
+        }
+        .navbar-collapse {
+            z-index: 2;
+            position: absolute;
+            top: 70px;
+            left: 50%;
+            padding: 30px 0 0;
+            background: $base-color;
+            width: 100vw;
+            transform: translateX(-50%);
+            box-shadow: 0px 30px 70px -20px $base50;
+            .nav-menu {
+                margin: -15px 0;
+                a {
+                    padding: 15px 0;
+                }
+            }
+            .login-register {
+                margin: 50px 0 0 0 ; 
+                .login-register-item {
+                    width: 50%;
+                    padding: 25px 0;
+                    margin: 0;
+                    &:hover {
+                        span {
+                            color: $white;
+                        }
+                        svg {
+                            path {
+                                color: $white !important;
+                                fill: $white !important;
+                            }
+                        }
+                    }
+                    &:first-child {
+                        background: $sec-color;
+                        &:before {
+                            content: "";
+                            display: inline-block;
+                            background: $sec-color;
+                        }
+                    }
+                    &:last-child {
+                        background: $third-color;
+                    }
+                }
+                .logout  {
+                    width: 50%;
+                    background: $third-color;
+                }
+            }
+        }  
+    }
+}
+
+.nav-menu {
+    margin: 0 -10px;
+    a {
+        margin: 0 10px;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        @include transition();
+        &:hover {
+            color: $sec-color;
+            border-color: $sec-color;
+        }
+    }
+}
+
+.login-register {
+    margin: 0 -10px;
+    .login-register-item {
+        margin: 0 10px;
+        cursor: pointer;
+        span,
+        &:hover {
+            span {
+                color: $sec-color;
+            }
+            svg {
+                path {
+                    color: $sec-color !important;
+                    fill: $sec-color !important;
+                }
+            }
+        }
+        svg {
+            width: 100%;
+            max-width: 16px;
+            @include transition();
+            path {
+                color: $white !important;
+                fill: $white !important;
+            }
+        }
+        span {
+            @include transition();
+            margin-left: 5px;
+        }
+    }
+    .logout {
+        @include transition();
+        cursor: pointer;
+        &:hover {
+            color: $sec-color;
+        }
+    }
+}
