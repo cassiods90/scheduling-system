@@ -1,0 +1,60 @@
+FROM ubuntu:20.04
+LABEL mantainer="Cassio Spessatto <cassiods90@hotmail.com>"
+ENV TZ=America/Sao_Paulo \
+    COMPOSER_ALLOW_SUPERUSER=1
+RUN mkdir /root/.ssh && mkdir /run/php
+COPY Files/SSH/ /root/.ssh/
+RUN chmod 700 /root/.ssh/* && \
+    echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
+    apt update && \
+    apt -y upgrade && \ 
+    apt -y install software-properties-common build-essential && \
+    yes | add-apt-repository ppa:ondrej/nginx && \
+    yes | add-apt-repository ppa:ondrej/php && \
+    apt update && \
+    apt -y upgrade && \ 
+    apt -y install \
+        nginx \
+        git \
+        curl \
+        zip \
+        nodejs \
+        php8.1-fpm \
+        php8.1-xml \
+        php8.1-gd \
+        php8.1-pdo \
+        php8.1-mysql \
+        php8.1-mbstring \
+        php8.1-zip \
+        php8.1-curl \ 
+        php8.1-dom \
+        php8.1-bcmath \
+        php8.1-redis \
+        vim \
+        zsh \
+        nano && \
+    ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log && \
+    rm -rf /var/www/html/* && \
+    yes | git clone \
+        git@github.com:cassiods90/tcc-unigran.git \
+        /var/www/html/ && \
+    cd ~ && \
+    php -r \
+        "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php && \
+    rm composer-setup.php && \
+    mv composer.phar /usr/local/bin/composer && \
+    chmod a+x /usr/local/bin/composer && \
+    cd /var/www/html/backend && composer install && \
+    cd /var/www/html/backend && php artisan storage:link
+
+COPY ./Files/API/boot/start.sh /root/start.sh
+COPY ./Files/API/nginx/vhost.conf /etc/nginx/sites-enabled/mlp-xis
+COPY ./Files/API/php/php.ini /etc/php/8.1/fpm/php.ini
+COPY ./Files/API/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./Files/API/php/www.conf /etc/php/8.1/fpm/pool.d/www.conf
+COPY ./Files/API/laravel/env.conf /var/www/html/.env
+
+ENTRYPOINT [ "bash", "/root/start.sh" ]

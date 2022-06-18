@@ -1,0 +1,74 @@
+version: '3'
+services:
+  schedulingdb:
+    build:
+      dockerfile: Dockerfile-DBMS
+      context: ./
+    expose:
+      - 3306
+    ports:
+      - '3311:3306'
+    volumes:
+      - './Files/DBMS/dump:/docker-entrypoint-initdb.d'
+      - 'schedulingdb:/var/lib/mysql'
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: scheduling
+      MYSQL_ROOT_HOST: '%'
+    networks:
+      scheduling_network:
+        ipv4_address: 177.29.0.2
+  schedulingapi:
+    build:
+      dockerfile: Dockerfile-API
+      context: ./
+    volumes:
+      - 'schedulingapidata:/var/www/html'
+    working_dir: /var/www/html
+    expose:
+      - 80
+    depends_on:
+      - schedulingdb
+    extra_hosts:
+      - 'api.scheduling.com:177.29.0.4'
+      - 'aws.scheduling.com:177.29.0.7'
+      - 'scheduling-app.aws.scheduling.com:177.29.0.7'
+    networks:
+      scheduling_network:
+        ipv4_address: 177.29.0.4
+  schedulingserver:
+    image: 'nginx:1.17.1-alpine'
+    volumes:
+      - './Files/WEBSERVER/vhost.conf:/etc/nginx/conf.d/scheduling.conf'
+    depends_on:
+      - schedulingapi
+    ports:
+      - '80:80'
+    networks:
+      scheduling_network:
+        ipv4_address: 177.29.0.6
+  schedulingaws:
+    image: 'localstack/localstack:latest'
+    expose:
+      - 4566-4584
+      - 8055-8080
+    ports:
+      - 4566:4566
+    environment:
+      - SERVICES=s3
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - 'schedulingawsdata:/tmp/localstack/data'
+    networks:
+      scheduling_network:
+        ipv4_address: 177.29.0.7
+volumes:
+  schedulingdb: null
+  schedulingapidata: null
+  schedulingawsdata: null
+networks:
+  scheduling_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 177.29.0.0/24

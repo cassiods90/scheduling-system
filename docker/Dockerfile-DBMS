@@ -1,0 +1,4 @@
+FROM mysql:8.0.25
+LABEL mantainer="Cassio Spessatto <cassiods90@hotmail.com>"
+COPY Files/DBMS/config/config.cnf /etc/mysql/conf.d/config.cnf
+RUN chmod 755 /etc/mysql/conf.d/config.cnf
