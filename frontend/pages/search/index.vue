@@ -82,7 +82,6 @@ export default {
 	},
 	async mounted() {
 		await this.reloadList();
-
 	}
 };
 </script>

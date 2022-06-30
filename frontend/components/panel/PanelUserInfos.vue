@@ -232,7 +232,7 @@
 								/>
 							</div>
 
-							<div class="field-input-wrapper photo-field" v-if="form.userType == 'professional'">
+							<!-- <div class="field-input-wrapper photo-field" v-if="form.userType == 'professional'">
 								<label class="text black">Upload your Picture</label>
 								<FormulateInput
 									type="image"
@@ -242,7 +242,7 @@
 									validation="required|mime:image/jpeg,image/png"
 									:wrapper-class="['field-input']"
 								/>
-							</div>
+							</div> -->
 						</div>
 
 						<div class="form-group col-12 col-md-6" v-if="form.userType == 'professional'">
@@ -274,7 +274,7 @@
                 </FormulateForm>
             </div>
 
-			<PanelDataShow :value="LoggedUserData" @switchMode="switchMode"  :key="componentKey" v-else/>
+			<PanelDataShow v-if="loggedUserData && !editMode" :value="loggedUserData" @switchMode="switchMode"  :key="`user-data-form-${parseComponentKey}`" />
 			
             <!--  <div class="col-12" data-aos="fade-up" data-aos-delay="200" v-else>
                 <div class="form-row">
@@ -383,7 +383,6 @@
                     </div>
                 </div>             
             </div> -->
-
 			 
 			<!-- <div class="col-12" data-aos="fade-up" data-aos-delay="200" v-else>
                 <div class="form-row">
@@ -508,33 +507,39 @@ export default {
         };
     },
 	watch: {
-		LoggedUserData(newValue) {
-			console.log('exec get user data', newValue)
-			if(newValue) {
-				this.getUserData();
-				console.log('getUserData', newValue)
-			}
-		}
+		// LoggedUserData(newValue) {
+		// 	console.log('exec get user data', newValue)
+		// 	if(newValue) {
+		// 		this.getUserData();
+		// 		// this.syncData(newValue);
+		// 		// console.log('getUserData', newValue)
+		// 	}
+		// }
 	},
 	computed: {
 		...mapState({
 			LoggedUserData: state => state.auth.user	
-		}) 
+		}),
+		parseComponentKey() {
+			if(this.form && this.form.updated_at) return JSON.stringify(this.form.updated_at);
+			return this.componentKey++ 
+		},
 	},
     methods: {
 		forceRerender() {
-			this.componentKey += 1;
-			console.log('re-render', this.componentKey)
+			this.componentKey++;
+			// console.log('re-render', this.componentKey)
 		},
 		async getUserData() {
 			return await this.$axios.get(`/users/get/${this.$auth.user.id}`)
-			// .then(({data}) => {
-			// 	this.syncData(data);
-			// 	console.log('getUserData', data)
-			// })
+			.then(({data}) => {
+				this.loggedUserData = JSON.parse(JSON.stringify(data));
+				this.syncData(data);
+				console.log('getUserData', data)
+			})
 		},
 		syncData(userData) {
-			console.log('userData syncDataFunction', userData);
+			// console.log('userData syncDataFunction', userData);
 			if(!userData) return null;
 
 			var userDataType = null;
@@ -555,8 +560,8 @@ export default {
 				userPhone: userData.phone,
 				userWhats: userData.whatsapp,
 				userAddress: userData.address,
-				userAppointmentValue: (userData.professional ? userData.professional.appointment_value : null),
-
+				userAppointmentValue: (userData.professional ? parseInt(userData.professional.appointment_value) : null),
+				
 				opening_hours: {
 					start: (userData.professional ? (userData.professional.opening_hours ? userData.professional.opening_hours.start : null) : null),
 					end: (userData.professional ? (userData.professional.opening_hours ? userData.professional.opening_hours.end : null) : null),
@@ -568,16 +573,18 @@ export default {
 				userAppointmentDuration: (userData.professional ? parseInt(userData.professional.appointment_duration) : null),
 
 				// picture: this.form.professionalPicture,
+				picture: userData.picture_uploaded_file_id,
 				professionalOpenWeekDays: (userData.professional ? (userData.professional.days_open) : null),
 			}
 			console.log('UserForm syncDataFunction', this.form);
+			setTimeout(()=> {
+				this.forceRerender();
+			}, 600)
 		},
         async switchMode(){
-			// this.editMode = !this.editMode;
-			let {data} = await this.getUserData();
-			this.syncData(data);
-            this.editMode = !this.editMode;
-			this.forceRerender();
+			// await this.getUserData();
+			// this.syncData(data);
+            this.editMode = !this.editMode;      		
         },
 		async editUser() {
 			// return console.log('teste editUser')
@@ -611,8 +618,9 @@ export default {
 				await this.$axios.post(`users/update/${this.$auth.user.id}`, params)
 					.then(response => {
 						// console.log('response', response)
-						this.syncData(response.data);
+						// this.syncData(response.data);
 						this.switchMode();
+						
 					})				
 			} 
 			catch(e) {
@@ -620,6 +628,9 @@ export default {
 				alert('Some error was ocurred, please try again.')
 			}
 		}
-    }
+    },
+	async mounted() {
+		await this.getUserData();
+	}
 }
 </script>

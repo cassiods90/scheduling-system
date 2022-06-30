@@ -22,21 +22,21 @@
 				</div>
 			</div>
 
-			<div class="form-group col-12 col-md-6 col-lg-4">
+			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.patient != null">
 				<div class="d-flex flex-column justify-content-start align-items-start">		
 					<label class="text black bold">Confirm Password:</label>
 					<span class="text black">*********</span>
 				</div>
 			</div>  
 
-			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.professional_id == null">
+			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.patient != null">
 				<div class="d-flex flex-column justify-content-start align-items-start">
 					<label class="text black bold">CPf:</label>
 					<span class="text black">{{value.patient.document}}</span>
 				</div>
 			</div>
 
-			<div class="form-group col-12 col-md-6 col-lg-4" v-else>
+			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.professional != null ">
 				<div class="d-flex flex-column justify-content-start align-items-start">
 					<label class="text black bold">Register:</label>
 					<span class="text black">{{value.professional.document}}</span>
@@ -71,33 +71,45 @@
 				</div>
 			</div>	
 
-			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.patient_id == null">
+			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.professional != null">
 				<div class="d-flex flex-column justify-content-start align-items-start">
 					<label class="text black bold">Appointment Value:</label>
 					<span class="text black">R$ {{value.professional.appointment_value}}</span>
 				</div>
 			</div>
 
-			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.patient_id == null">
+			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.professional != null">
 				<div class="d-flex flex-column justify-content-start align-items-start">
 					<label class="text black bold">Appointment Duration:</label>
 					<span class="text black">{{value.professional.appointment_duration}} minutes</span>
 				</div>
 			</div>
 
-			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.patient_id == null">
+			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.professional != null">
 				<div class="d-flex flex-column justify-content-start align-items-start">
 					<label class="text black bold">Opening Hours:</label>
-					<span class="text black">{{value.professional.opening_hours}}</span>
+					<span class="text black">{{getOpeningHours.start}} to {{getOpeningHours.break.start}} and {{getOpeningHours.break.end}} to {{getOpeningHours.end}}</span>
 				</div>
 			</div>
 
-			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.patient_id == null">
+			<div class="form-group col-12 col-md-6 col-lg-4" v-if="value.professional != null">
 				<div class="d-flex flex-column justify-content-start align-items-start">
 					<label class="text black bold">Open Days:</label>
-					<span class="text black">{{value.professional.days_open}}</span>
+					<ul class="open-days-text d-flex flex-wrap justify-content-start align-items-start">
+						<li v-for="getOpeningDay in getOpeningDays" :key="getOpeningDay" class="d-flex justify-content-center align-items-center">	
+							<span class="text black">{{getOpeningDay}}</span>
+							<p class="text black">-</p>
+						</li>
+					</ul>
 				</div>
 			</div>
+
+			<!-- <div class="form-group col-12 col-md-6 col-lg-4" v-if="value.professional != null">
+				<div class="d-flex flex-column justify-content-start align-items-start">
+					<label class="text black bold">Appointment Picture:</label>
+					<img :src="value.picture.public_url" class="text black">
+				</div>
+			</div> -->
 			
 			<div class="form-group col-12">
 				<div @click="switchMode" class="field-button">
@@ -128,7 +140,15 @@ export default {
 		
 	},
 	computed: {
-		
+		getOpeningHours() {
+			var openingHours =  JSON.parse(this.value.professional.opening_hours);
+			return openingHours
+		},
+		getOpeningDays() {
+			var openingDays = JSON.parse(this.value.professional.days_open);
+			console.log('openingDays', openingDays)
+			return openingDays
+		}
 	},
     methods: {
 		switchMode() {

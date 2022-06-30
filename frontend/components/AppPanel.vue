@@ -14,7 +14,7 @@
                         </div>
 
                         <div class="panel-content-item scheduls-items">
-                            <PanelScheduls v-for="(schedul) in mySchedul" :key="`mySchedul-item-${schedul.id}`"  :value="schedul"/>
+                            <PanelScheduls v-for="(schedul) in mySchedul" :key="`mySchedul-item-${schedul.id}`"  :value="schedul" :userType="userType"/>
                         </div>
                     </div>
                 </div>
@@ -44,6 +44,7 @@
 
 <script>
 import PanelScheduls from '@/components/panel/PanelScheduls.vue';
+import { mapState } from "vuex";
 
 export default {
     name: 'AppPanel',
@@ -57,33 +58,40 @@ export default {
                 return []
             }  
         },
+        userType: {
+        type: String,
+        default: () => {
+            return []
+        }  
+    },
     },
     data: function () {
       return {
         visible: true,
+        loggedUserId: null,
       }
     },
     watch: {
-    
+        
     },
-    methods: {
-      toggleView(event) {
-        let elem = event.target.closest(".panel-item");
-        let elemOthers = document.querySelectorAll('.panel-item')
-        if(elem.classList.contains('visible')){
-            elem.classList.remove('visible')
-        } else {
-            elem.classList.add('visible')
-        }
-        elemOthers.forEach((node) => {
-            if(node != elem) {
-                node.classList.remove('visible')
-            }
-        })
-      }
-    },
-    mounted() {
+    computed: {
 
+	},
+    methods: {
+        toggleView(event) {
+            let elem = event.target.closest(".panel-item");
+            let elemOthers = document.querySelectorAll('.panel-item')
+            if(elem.classList.contains('visible')){
+                elem.classList.remove('visible')
+            } else {
+                elem.classList.add('visible')
+            }
+            elemOthers.forEach((node) => {
+                if(node != elem) {
+                    node.classList.remove('visible')
+                }
+            })
+        }
     },
 }
 </script>

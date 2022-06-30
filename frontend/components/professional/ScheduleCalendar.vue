@@ -13,10 +13,11 @@
 		is24hr
 		/>
 
-		<!-- <div class="field-button">
+		<div class="field-button">
 			<button>Save</button>
 		</div>
 
+		<!--
 		<div class="form-group col-12">
 			<div class="field-input-wrapper">
 				<FormulateInput

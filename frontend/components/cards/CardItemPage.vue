@@ -56,14 +56,19 @@
                 <div class="col-6 col-md-12">
                     <div class="d-flex justify-content-start flex-column align-items-start">
                         <span class="text subtitle-small black">Opening Hours:</span>
-                        <span class="text black">{{professionalData.opening_hours}}</span>
+                        <span class="text black">{{getOpeningHours.start}} to {{getOpeningHours.break.start}} and {{getOpeningHours.break.end}} to {{getOpeningHours.end}}</span>
                     </div>
                 </div>
 
                 <div class="col-6 col-md-12">
                     <div class="d-flex justify-content-start flex-column align-items-start">
                         <span class="text subtitle-small black">Open Days:</span>
-                        <span class="text black">{{professionalData.days_open}}</span>
+                        <ul class="open-days-text d-flex flex-wrap justify-content-start align-items-start">
+                            <li v-for="getOpeningDay in getOpeningDays" :key="getOpeningDay" class="d-flex justify-content-center align-items-center">	
+                                <span class="text black">{{getOpeningDay}}</span>
+                                <p class="text black">-</p>
+                            </li>
+					    </ul>
                     </div>
                 </div>
             </div>
@@ -95,6 +100,17 @@ export default {
     watch: {
         
     },
+    computed: {
+		getOpeningHours() {
+			var openingHours =  JSON.parse(this.professionalData.opening_hours);
+			return openingHours
+		},
+		getOpeningDays() {
+			var openingDays = JSON.parse(this.professionalData.days_open);
+			console.log('openingDays', openingDays)
+			return openingDays
+		}
+	},
     methods: {
         
     },
@@ -102,7 +118,7 @@ export default {
         // console.log('teste component', professionalData )
     },
     mounted(){
-        console.log('teste component', this.professionalData)
+        // console.log('teste component', this.professionalData)
     }
 }
 </script>

@@ -9,6 +9,7 @@
                 <span class="text subtitle base-color item-title">{{value.user.name}}</span>
                 <span class="text black">{{value.user.address}}</span>
                 <span class="text black">{{value.user.phone}}</span>
+                <span class="text black">{{value.user.whatsapp}}</span>
                 <span class="text base-color item-info">+ More Info</span>
             </div>
             <CardItemModal :showCartModal="showCartModal" @toggleCartModal="toggleCartModal" :value="value"/>

@@ -85,6 +85,27 @@ input {
 	color: red;
 }
 
+.open-days-text {
+	li {
+		p {
+			padding: 0 5px;
+		}
+		&:last-child {
+			p {
+				display: none;
+			}
+		}
+	}	
+}
+
+.schedule-calendar {
+	position: relative;
+	.field-button {
+		position: absolute;
+		bottom: 28px;
+		right:20px;
+	}
+}
 
 .text {
 	line-height: 1.2;

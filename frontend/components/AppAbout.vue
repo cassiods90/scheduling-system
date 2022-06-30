@@ -1,7 +1,7 @@
 
 <template>
     <div class="about">
-        <Aboutbanner />
+        <AboutBanner />
         <AboutContent />
     </div>
 </template>
@@ -12,9 +12,9 @@
 
 export default {
     name: 'AppAbout',
-    // components: {
-    //     Aboutbanner,
-    //     AboutContent,
-    // }
+    components: {
+        // Aboutbanner,
+       // AboutContent,
+    }
 }
 </script>

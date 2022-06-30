@@ -37,11 +37,16 @@
                     </div>
                     <div class="d-flex justify-content-start align-items-center">
                         <span class="text subtitle black">Opening Hours:</span>
-                        <span class="text black">{{value.opening_hours}}</span>
+                        <span class="text black">{{getOpeningHours.start}} to {{getOpeningHours.break.start}} and {{getOpeningHours.break.end}} to {{getOpeningHours.end}}</span>
                     </div>
                     <div class="d-flex justify-content-start align-items-center">
                         <span class="text subtitle black">Open Days:</span>
-                        <span class="text black">{{value.days_open}}</span>
+                        <ul class="open-days-text d-flex flex-wrap justify-content-start align-items-start">
+                            <li v-for="getOpeningDay in getOpeningDays" :key="getOpeningDay" class="d-flex justify-content-center align-items-center">	
+                                <span class="text black">{{getOpeningDay}}</span>
+                                <p class="text black">-</p>
+                            </li>
+					</ul>
                     </div>
                 </div>
 
@@ -80,7 +85,16 @@ export default {
         userPicture() {
             if(!this.value || !this.value.user || !this.value.user.picture || !this.value.user.picture.public_url) return null
             return this.value.user.picture.public_url
-        }
+        },
+        getOpeningHours() {
+			var openingHours =  JSON.parse(this.value.opening_hours);
+			return openingHours
+		},
+		getOpeningDays() {
+			var openingDays = JSON.parse(this.value.days_open);
+			console.log('openingDays', openingDays)
+			return openingDays
+		}
     },
     methods: {
         toggleCartModal() {

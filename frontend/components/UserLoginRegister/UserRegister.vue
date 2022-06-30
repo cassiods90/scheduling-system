@@ -350,7 +350,7 @@
 				console.log('upload function file:', error)
 				console.log('upload function file:', options)
 			},
-			async uploadFile () {
+			async uploadFile() {
 				console.log('entrou no upload')
 				console.log('uploadfile data: ')
 				
@@ -401,6 +401,7 @@
 						days_open: this.form.professionalOpenWeekDays,
 						
 					}
+					this.uploadFile()
 					await this.$axios.post("/users/add", params)
 						.then(response => {
 							console.log('response', response)
